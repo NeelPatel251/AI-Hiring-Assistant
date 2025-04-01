@@ -132,7 +132,14 @@ resume_directory = "uploads"
 #     job_description = file.read() 
 
 
-api_key = "REDACTED_OPENAI_KEY"
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+api_key = os.getenv("Open_API_key")
+# print(api_key)
+
+# api_key = "REDACTED_OPENAI_KEY"
 # matcher = ResumeJDMatcher(resume_directory, job_description, api_key)
 # results = matcher.process_resumes()
 
