@@ -6,6 +6,17 @@ from sklearn.metrics.pairwise import cosine_similarity
 import openai
 import os
 
+# import docx
+import numpy as np
+from werkzeug.utils import secure_filename
+from flask import Flask, request, render_template
+
+app = Flask(__name__)
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
 class ResumeJDMatcher:
     def __init__(self, resume_dir, job_description, api_key):
         self.resume_dir = resume_dir
@@ -116,14 +127,14 @@ class ResumeJDMatcher:
         return results
 
 resume_directory = "uploads"
-jd = "jd.txt"
-with open(jd, "r") as file:
-    job_description = file.read() 
+# jd = "jd.txt"
+# with open(jd, "r") as file:
+#     job_description = file.read() 
 
 
 api_key = "REDACTED_OPENAI_KEY"
-matcher = ResumeJDMatcher(resume_directory, job_description, api_key)
-results = matcher.process_resumes()
+# matcher = ResumeJDMatcher(resume_directory, job_description, api_key)
+# results = matcher.process_resumes()
 
 # for resume, data in results.items():
 #     print(f"\nResume: {resume}")
@@ -141,15 +152,55 @@ def rank_resumes_by_avg_score(results):
         ranking_data.append((resume_name, combined_score))
     
     ranking_data.sort(key=lambda x: x[1], reverse = True)
-    
-    print("Resume Rankings by Average Score:")
-    print("=" * 50)
-    print(f"{'Rank':<5}{'Resume Name':<40}{'Score':<15}")
-    print("-" * 50)
 
-    for rank, (resume_name, score) in enumerate(ranking_data, 1):
-        print(f"{rank:<5}{resume_name:<40}{score:<15.4f}")
+    # print(ranking_data)
+    
+    # print("Resume Rankings by Average Score:")
+    # print("=" * 50)
+    # print(f"{'Rank':<5}{'Resume Name':<40}{'Score':<15}")
+    # print("-" * 50)
+
+    # for rank, (resume_name, score) in enumerate(ranking_data, 1):
+    #     print(f"{rank:<5}{resume_name:<40}{score:<15.4f}")
 
     return ranking_data
 
-ranked_resumes = rank_resumes_by_avg_score(results)
+# ranked_resumes = rank_resumes_by_avg_score(results)
+
+def clear_directory(UPLOAD_DIR):
+    for file in os.listdir(UPLOAD_DIR):
+        os.remove(os.path.join(UPLOAD_DIR, file))
+
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    ranked_resumes = []
+    if request.method == 'POST':
+        job_description = request.form['job_desc']
+        resume_files = request.files.getlist('resumes')
+
+        for file in resume_files:
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+
+        matcher = ResumeJDMatcher(resume_directory, job_description, api_key)
+        results = matcher.process_resumes()
+
+        clear_directory(UPLOAD_FOLDER)
+        
+        ranked_resumes = rank_resumes_by_avg_score(results)
+    
+    return render_template('index.html', ranked_resumes=ranked_resumes)
+
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+# for file in os.listdir(UPLOAD_DIR):
+#         os.remove(os.path.join(UPLOAD_DIR, file))
+
+# [('resume_alice_brown.pdf', 0.20104411244392395), ('resume_jane_smith.pdf', 0.06941389292478561)]
