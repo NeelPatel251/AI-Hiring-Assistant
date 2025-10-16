@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class Settings:
-    # OpenAI Configuration
-    OPENAI_API_KEY: str = os.getenv("Open_API_key")
+    # Claude Configuration
+    CLAUDE_API_KEY: str = os.getenv("CLAUDE_API_KEY")
     
     # File Upload Configuration
     UPLOAD_FOLDER: str = "uploads"
@@ -18,8 +18,8 @@ class Settings:
     SENTENCE_TRANSFORMER_MODEL: str = 'all-MiniLM-L6-v2'
     SENTENCE_TRANSFORMER_MODEL_ADVANCED: str = 'all-mpnet-base-v2'
     
-    # OpenAI Model Configuration
-    OPENAI_MODEL: str = "gpt-4o"
+    # Claude Model Configuration
+    CLAUDE_MODEL: str = "claude-4-sonnet-20250514"
     
     # Similarity Thresholds
     SECTION_SIMILARITY_THRESHOLD: float = 0.7

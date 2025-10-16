@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-2.3.0-green.svg)](https://flask.palletsprojects.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![AI](https://img.shields.io/badge/AI-Powered-purple.svg)](https://openai.com)
+[![AI](https://img.shields.io/badge/AI-Powered-purple.svg)](https://claude.ai)
 
 > **Transform your hiring process with intelligent AI-driven resume analysis and ranking**
 
@@ -42,7 +42,7 @@ An advanced machine learning solution that revolutionizes recruitment by automat
 
 ### Prerequisites
 - Python 3.8 or higher
-- OpenAI API key
+- Claude API key
 
 ### Installation
 
@@ -66,7 +66,7 @@ pip install -r requirements.txt
 4. **Configure environment variables**
 ```bash
 # Create .env file
-echo "Open_API_key=your_openai_api_key_here" > .env
+echo "CLAUDE_API_KEY=your_claude_api_key_here" > .env
 ```
 
 5. **Run the application**
@@ -142,7 +142,7 @@ resume-ranking-system/
 ### Backend
 - **Flask**: Web framework
 - **Python 3.8+**: Core language
-- **OpenAI GPT-4**: Text summarization and analysis
+- **Claude Sonnet 4**: Text summarization and analysis
 - **Sentence Transformers**: Semantic text analysis
 - **scikit-learn**: Machine learning utilities
 - **PyMuPDF**: PDF text extraction
@@ -248,13 +248,9 @@ Found a bug or have a feature request? Please open an issue with:
 - **Concurrent Users**: Supports multiple simultaneous analyses
 - **Scalability**: Modular architecture for easy scaling
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
-- **OpenAI** for providing GPT-4 API
+- **Anthropic** for providing Claude API
 - **Hugging Face** for sentence transformer models
 - **Flask Community** for the excellent web framework
 - **Bootstrap Team** for the responsive CSS framework
